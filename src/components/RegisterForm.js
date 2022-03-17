@@ -5,7 +5,7 @@ import validarRegistro from './../utils/validations';
 const RegisterForm = ({ changeForm }) => {
 
     const [dataForm, setDataForm] = useState({ email: '', password: '', password2: '' });
-    const [errores, setErrores] = useState({ email: false, password: false, password2: false });
+    const [errores, setErrores] = useState({ email: false, password: false, password2: false, error: '' });
 
     const handleRegister = () => {
 
@@ -15,13 +15,14 @@ const RegisterForm = ({ changeForm }) => {
 
     return (
         <>
-            { errores.email && (<Text style={styles.warning}> Debe ingresar un email correcto. </Text>)}
+            { errores.email && (<Text style={styles.warning}> {errores.error} </Text>)}
             <TextInput
                 style={[styles.input, errores.email && styles.error]}
                 placeholder='Correo electronico'
                 placeholderTextColor="#969696"
                 onChange={e => (setDataForm({ ...dataForm, email: e.nativeEvent.text }), console.log(dataForm))}
             />
+            { errores.password && (<Text style={styles.warning}> {errores.error} </Text>)}
             <TextInput
                 style={[styles.input, errores.password && styles.error]}
                 placeholder='Contraseña'
@@ -29,6 +30,7 @@ const RegisterForm = ({ changeForm }) => {
                 placeholderTextColor="#969696"
                 onChange={e => (setDataForm({ ...dataForm, password: e.nativeEvent.text }), console.log(dataForm))}
             />
+            { errores.password2 && (<Text style={styles.warning}> {errores.error} </Text>)}
             <TextInput
                 style={[styles.input, 
                     errores.password2 && styles.error]}
@@ -76,10 +78,10 @@ const styles = StyleSheet.create({
         borderColor: 'red'
     },
     warning: {
-        color: '#F7a411',
-        fontSize: 13,
-        fontWeight: '450',
-        letterSpacing: 3,
+        color: '#fff',
+        fontSize: 12,
+        fontWeight: '400',
+        letterSpacing: 2,
         marginBottom: 3
     }
 })
