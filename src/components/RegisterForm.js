@@ -1,27 +1,43 @@
 import { StyleSheet, Text, TouchableOpacity, TextInput } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
+import validarRegistro from './../utils/validations';
 
 const RegisterForm = ({ changeForm }) => {
+
+    const [dataForm, setDataForm] = useState({ email: '', password: '', password2: '' });
+    const [errores, setErrores] = useState({ email: false, password: false, password2: false });
+
+    const handleRegister = () => {
+
+        validarRegistro(dataForm, setErrores);
+
+    }
+
     return (
         <>
+            { errores.email && (<Text style={styles.warning}> Debe ingresar un email correcto. </Text>)}
             <TextInput
-                style={styles.input}
+                style={[styles.input, errores.email && styles.error]}
                 placeholder='Correo electronico'
                 placeholderTextColor="#969696"
+                onChange={e => (setDataForm({ ...dataForm, email: e.nativeEvent.text }), console.log(dataForm))}
             />
             <TextInput
-                style={styles.input}
+                style={[styles.input, errores.password && styles.error]}
                 placeholder='Contraseña'
                 secureTextEntry={true}
                 placeholderTextColor="#969696"
+                onChange={e => (setDataForm({ ...dataForm, password: e.nativeEvent.text }), console.log(dataForm))}
             />
             <TextInput
-                style={styles.input}
+                style={[styles.input, 
+                    errores.password2 && styles.error]}
                 placeholder='Repetir contraseña'
                 secureTextEntry={true}
                 placeholderTextColor="#969696"
+                onChange={e => (setDataForm({ ...dataForm, password2: e.nativeEvent.text }), console.log(dataForm))}
             />
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => handleRegister()} >
                 <Text style={styles.btnText}>Registrarse</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={changeForm} style={styles.login} >
@@ -51,9 +67,19 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#1e3040'
     },
-    login:{
+    login: {
         flex: 1,
         justifyContent: 'flex-end',
         marginBottom: 20
+    },
+    error: {
+        borderColor: 'red'
+    },
+    warning: {
+        color: '#F7a411',
+        fontSize: 13,
+        fontWeight: '450',
+        letterSpacing: 3,
+        marginBottom: 3
     }
 })

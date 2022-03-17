@@ -1,19 +1,25 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, {useState} from 'react'
 
 const LoginForm = ({ changeForm }) => {
+
+    const defaultValue = { email: '', password: '' };
+    const [dataForm, setDataForm] = useState(defaultValue);
+
     return (
         <>
             <TextInput
                 style={styles.input}
                 placeholder='Correo electronico'
                 placeholderTextColor="#969696"
+                onChange={e => (setDataForm({...dataForm, email: e.nativeEvent.text}), console.log(dataForm))}
             />
             <TextInput
                 style={styles.input}
                 placeholder='Contraseña'
                 secureTextEntry={true}
                 placeholderTextColor="#969696"
+                onChange={e => (setDataForm({...dataForm, password: e.nativeEvent.text}), console.log(dataForm))}
             />
             <TouchableOpacity >
                 <Text style={styles.btnText}>Iniciar sesión</Text>
@@ -47,7 +53,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#1e3040'
     },
-    login:{
+    login: {
         flex: 1,
         justifyContent: 'flex-end',
         marginBottom: 20
